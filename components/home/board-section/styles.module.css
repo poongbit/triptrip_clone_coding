@@ -1,0 +1,335 @@
+.section {
+  width: calc(100% - 40px);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 46px 0 100px;
+}
+
+.section h2 {
+  margin: 0;
+  color: #111111;
+  font-size: 26px;
+  letter-spacing: -1px;
+}
+
+.hotSection {
+  margin-bottom: 25px;
+}
+
+.hotSection h2 {
+  margin-bottom: 25px;
+}
+
+.cardList {
+  display: flex;
+  width: 100%;
+  gap: 28px;
+}
+
+.card {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+}
+
+.cardImage {
+  width: 108px;
+  height: 150px;
+  flex-shrink: 0;
+  border-radius: 7px;
+  object-fit: cover;
+}
+
+.cardContent {
+  display: flex;
+  min-width: 0;
+  padding: 4px 0 4px 10px;
+  flex: 1;
+  flex-direction: column;
+}
+
+.card h3 {
+  display: -webkit-box;
+  margin: 0 0 12px;
+  overflow: hidden;
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.writer {
+  display: flex;
+  margin: 0;
+  align-items: center;
+  gap: 6px;
+  color: #888888;
+  font-size: 12px;
+}
+
+.avatar {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #eeeeee;
+  font-size: 13px;
+}
+
+.cardBottom {
+  display: flex;
+  margin-top: auto;
+  align-items: center;
+  justify-content: space-between;
+  color: #aaaaaa;
+  font-size: 11px;
+}
+
+.cardBottom span {
+  color: #ff7777;
+  font-size: 13px;
+}
+
+.boardArea {
+  min-height: 712px;
+}
+
+.boardArea h2 {
+  margin-bottom: 20px;
+}
+
+.tools {
+  display: flex;
+  width: 100%;
+  margin-bottom: 22px;
+  align-items: center;
+  gap: 72px;
+}
+
+.search {
+  display: flex;
+  min-width: 0;
+  height: 46px;
+  flex: 1;
+  gap: 12px;
+}
+
+.dateBox {
+  display: flex;
+  width: 280px;
+  padding: 0 14px;
+  flex-shrink: 0;
+  align-items: center;
+  border-radius: 6px;
+  color: #888888;
+  background: #f3f3f3;
+  font-size: 13px;
+}
+
+.searchBox {
+  display: flex;
+  min-width: 0;
+  padding: 0 15px;
+  flex: 1;
+  align-items: center;
+  gap: 9px;
+  border-radius: 6px;
+  background: #f3f3f3;
+}
+
+.searchBox span {
+  color: #333333;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.searchBox input {
+  min-width: 0;
+  height: 44px;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 13px;
+}
+
+.searchButton {
+  width: 64px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 6px;
+  color: #ffffff;
+  background: #111111;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.writeButton {
+  display: flex;
+  width: 160px;
+  height: 46px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 6px;
+  color: #ffffff;
+  background: #2878ef;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.tableBox {
+  display: flex;
+  width: 100%;
+  height: 590px;
+  padding: 19px 44px 16px;
+  flex-direction: column;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.08);
+}
+
+.row {
+  display: flex;
+  width: 100%;
+  min-height: 43px;
+  align-items: center;
+  border: 1px solid #eeeeee;
+  border-radius: 7px;
+  color: #666666;
+  font-size: 13px;
+}
+
+.row + .row {
+  margin-top: 5px;
+}
+
+.head {
+  min-height: 42px;
+  border: 0;
+  color: #333333;
+  font-weight: 700;
+}
+
+.head + .row {
+  margin-top: 0;
+}
+
+.number {
+  width: 80px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.titleCell {
+  min-width: 0;
+  padding: 0 10px;
+  flex: 1;
+  overflow: hidden;
+  color: #333333;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.writerCell,
+.dateCell {
+  width: 120px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.dateCell {
+  color: #aaaaaa;
+}
+
+.pagination {
+  display: flex;
+  margin-top: auto;
+  flex-shrink: 0;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pagination button {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 7px;
+  color: #777777;
+  background: transparent;
+}
+
+.pagination .selected {
+  color: #111111;
+  background: #f2f2f2;
+  font-weight: 800;
+}
+
+.state {
+  padding: 100px 20px;
+  text-align: center;
+}
+
+@media (max-width: 1050px) {
+  .cardList {
+    flex-wrap: wrap;
+  }
+  .card {
+    min-width: 45%;
+  }
+  .tools {
+    gap: 18px;
+  }
+  .dateBox {
+    width: 235px;
+  }
+}
+
+@media (max-width: 760px) {
+  .section {
+    width: calc(100% - 28px);
+  }
+
+  .card {
+    min-width: 100%;
+  }
+
+  .tools,
+  .search {
+    height: auto;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .dateBox,
+  .searchBox,
+  .searchButton,
+  .writeButton {
+    width: 100%;
+    min-height: 46px;
+  }
+
+  .tableBox {
+    height: auto;
+    min-height: 570px;
+    padding: 14px;
+  }
+
+  .number {
+    width: 48px;
+  }
+  .writerCell {
+    display: none;
+  }
+
+  .dateCell {
+    width: 92px;
+  }
+
+  .pagination {
+    margin-top: 24px;
+  }
+}
