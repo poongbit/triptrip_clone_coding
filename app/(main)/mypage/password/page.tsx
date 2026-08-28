@@ -8,6 +8,10 @@ import type { ChangeEvent, FormEvent } from "react";
 
 import styles from "./styles.module.css";
 
+import { useMutation } from "@apollo/client/react";
+
+import { RESET_USER_PASSWORD } from "@/graphql/mutations";
+
 export default function PasswordPage() {
   // 새 비밀번호, 비밀번호 확인 두 인풋의 값을 각각 따로 기억해야 하니까 useState를 두 번 씀
   const [password, setPassword] = useState("");
@@ -26,8 +30,10 @@ export default function PasswordPage() {
     setPasswordCheck(event.target.value);
   };
 
+  const [resetUserPassword, { loading }] = useMutation(RESET_USER_PASSWORD);
+
   // 버튼(submit)을 눌렀을 때 실행됨
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     // 원래 <form>은 제출되면 페이지가 새로고침되는데, 그걸 막아줌
     event.preventDefault();
 
@@ -38,6 +44,21 @@ export default function PasswordPage() {
     if (password !== passwordCheck) {
       alert("새 비밀번호가 서로 일치하지 않습니다.");
       return;
+    }
+
+    try {
+      // variables : mutations.ts에서 $password로 선언해둔 자리에 실제 값을 채워 보냄
+
+      await resetUserPassword({ variables: { password } });
+
+      alert("비밀번호가 변경되었습니다. ");
+
+      setPassword("");
+      setPasswordCheck("");
+    } catch (error) {
+      // 로그인이 안돼 있으면 "회원정보 인증에 실패했습니다." 에러가 잡힘
+      alert("비밀번호 변경에 실패했습니다. 로그인 상태를 확인해주세요");
+      console.error(error);
     }
 
     // TODO: 다음 파일(graphql/mutations.ts)에서 진짜 "비밀번호 변경" 요청을 여기에 연결할 예정
@@ -82,8 +103,12 @@ export default function PasswordPage() {
 
         {/* disabled={!isFilled}: isFilled가 false면 disabled가 true가 되면서
             버튼이 눌리지 않고, CSS에서도 회색으로 보이게 처리할 거야(다음 파일에서) */}
-        <button type="submit" className={styles.button} disabled={!isFilled}>
-          비밀번호 변경
+        <button
+          type="submit"
+          className={styles.button}
+          disabled={!isFilled || loading}
+        >
+          {loading ? "변경 중..." : "비밀번호 변경"}
         </button>
       </div>
     </form>

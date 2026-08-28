@@ -1,0 +1,102 @@
+/* 데이터를 아직 못 받아왔을 때(로딩 중/에러) 보여주는 안내 문구 스타일.
+   board-section에서 이미 썼던 것과 같은 이름(.state)으로 맞춤 */
+.state {
+  width: calc(100% - 40px);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 60px 0;
+  text-align: center;
+  color: #767676;
+}
+
+/* 게시글 전체를 감싸는 영역. 다른 섹션들처럼 가운데 정렬 + 최대 폭 1280px */
+.article {
+  width: calc(100% - 40px);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 46px 0 100px;
+}
+
+.title {
+  margin: 0 0 20px;
+  font-size: 26px;
+  color: #111111;
+  letter-spacing: -1px;
+}
+
+/* 작성자 정보(왼쪽)랑 좋아요 개수(오른쪽)를 양 끝으로 배치 */
+.information {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.writer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333333;
+  font-size: 14px;
+}
+
+/* 아직 진짜 프로필 사진이 없어서, Header/UserInfo에서 썼던 것과 같은 회색 원으로 대체 */
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+}
+
+.writer time {
+  color: #999999;
+  font-size: 13px;
+}
+
+.like {
+  color: #767676;
+  font-size: 14px;
+}
+
+.mainImage {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 32px;
+}
+
+.contents {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #333333;
+  white-space: pre-wrap; /* 줄바꿈(\n)이 그대로 담겨 있어도 화면에서 실제 줄바꿈으로 보이게 함 */
+  margin-bottom: 40px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.likeButton {
+  padding: 12px 24px;
+  border: 1px solid #d4d3d3;
+  border-radius: 8px;
+  background-color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.listLink {
+  padding: 12px 24px;
+  border: 1px solid #d4d3d3;
+  border-radius: 8px;
+  color: #333333;
+  text-decoration: none;
+  font-size: 16px;
+}
