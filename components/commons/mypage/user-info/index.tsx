@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { userQuery } from "@apollo/client/react";
+import { useQuery } from "@apollo/client/react";
 
 import { FETCH_USER_LOGGED_IN } from "@/graphql/queries";
 import type { User } from "@/types/user";
@@ -25,7 +25,7 @@ export default function UserInfo() {
   // fetchUserLoggedIn: User 부분 : 결과 데이터 안에는 fetchUserLoggedIn이라는 이름으로
   // User 모양의 값이 들어있을 거야 라고 TypeScript에게 미리 알려주는 것
 
-  const { data } = userQuery<{ fetchUserLoggedIn: User }>(FETCH_USER_LOGGED_IN);
+  const { data } = useQuery<{ fetchUserLoggedIn: User }>(FETCH_USER_LOGGED_IN);
 
   // data가 아직 안 왔거나, 로그인이 안되서 에러가 났으면 undefined일 수 있음
   // ? 옵셔널 체이닝을 통해, data가 undefined면 에러 내지 않고 미리 알려준다.
