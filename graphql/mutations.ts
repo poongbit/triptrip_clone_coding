@@ -1,6 +1,5 @@
 // 데이터를 만들거나 로그인하는 명령
 
-// 데이터를 만들거나 로그인하는 명령
 import { gql } from "@apollo/client";
 
 // 새 비밀번호로 바꿔달라는 요청.
@@ -25,5 +24,26 @@ export const LIKE_BOARD = gql`
 export const DISLIKE_BOARD = gql`
   mutation dislikeBoard($boardId: ID!) {
     dislikeBoard(boardId: $boardId)
+  }
+`;
+
+export const CREATE_BOARD_COMMENT = gql`
+  mutation createBoardComment(
+    $boardId: ID!
+    $createBoardCommentInput: CreateBoardCommentInput!
+  ) {
+    createBoardComment(
+      boardId: $boardId
+      createBoardCommentInput: $createBoardCommentInput
+    ) {
+      _id
+      writer
+      contents
+      rating
+      user {
+        name
+      }
+      createdAt
+    }
   }
 `;

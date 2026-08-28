@@ -61,3 +61,20 @@ export const FETCH_USER_LOGGED_IN = gql`
     }
   }
 `;
+
+// 댓글 요청
+
+export const FETCH_BOARD_COMMENTS = gql`
+  query fetchBoardComments($boardId: ID!) {
+    fetchBoardComments(boardId: $boardId) {
+      _id
+      writer
+      contents
+      rating
+      user {
+        name
+      }
+      createdAt
+    }
+  }
+`;

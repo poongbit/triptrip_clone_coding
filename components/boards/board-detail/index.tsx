@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FETCH_BOARD } from "@/graphql/queries";
 import type { Board } from "@/types/board";
 import { LIKE_BOARD, DISLIKE_BOARD } from "@/graphql/mutations";
+import BoardComment from "@/components/boards/board-comment";
 import styles from "./styles.module.css";
 
 // 게시글에 이미지가 하나도 없을 때 디신 보여줄 기본 이미지
@@ -126,6 +127,7 @@ export default function BoardDetail({ boardId }: BoardDetailProps) {
           목록으로
         </Link>
       </div>
+      <BoardComment boardId={boardId} />
     </article>
   );
 }
