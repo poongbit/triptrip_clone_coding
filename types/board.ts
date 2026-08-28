@@ -8,6 +8,7 @@ export type Board = {
   title: string;
   contents: string;
   likeCount: number;
+  dislikeCount: number;
   images?: string[] | null;
   createdAt: string;
 };

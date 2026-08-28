@@ -2,11 +2,12 @@
 
 "use client";
 
-import { useQuery } from "@apollo/client/react";
+import { useMutation, useQuery } from "@apollo/client/react";
 import Link from "next/link";
 
 import { FETCH_BOARD } from "@/graphql/queries";
 import type { Board } from "@/types/board";
+import { LIKE_BOARD, DISLIKE_BOARD } from "@/graphql/mutations";
 import styles from "./styles.module.css";
 
 // 게시글에 이미지가 하나도 없을 때 디신 보여줄 기본 이미지
@@ -38,7 +39,7 @@ type BoardDetailProps = {
 
 export default function BoardDetail({ boardId }: BoardDetailProps) {
   // page.tsx에서 넘겨받은 boardId를 변수로 실어 보내서, "이 글 하나만 주세요" 라고 요청
-  const { data, loading, error } = useQuery<{ fetchBoard: Board }>(
+  const { data, loading, error, refetch } = useQuery<{ fetchBoard: Board }>(
     FETCH_BOARD,
     {
       variables: { boardId },
@@ -46,12 +47,37 @@ export default function BoardDetail({ boardId }: BoardDetailProps) {
     },
   );
 
+  const [likeBoard] = useMutation(LIKE_BOARD);
+  const [dislikeBoard] = useMutation(DISLIKE_BOARD);
+
   if (loading)
     return <p className={styles.state}>게시글을 불러오고 있어요...</p>;
   if (error || !data)
     return <p className={styles.state}>게시글을 불러오지 못했어요.</p>;
 
   const board = data.fetchBoard;
+
+  const onClickLike = async () => {
+    try {
+      await likeBoard({ variables: { boardId } });
+      // 좋아요 요청이 성공하며, 게시글 정보를 서버에서 다시 불러와서
+      // 화면의 좋아요 개수를 최신 값으로 갱신함 (board-section 검색할 때 썼던 refetch랑 같은 것)
+      refetch();
+    } catch (mutationError) {
+      alert("좋아요 처리에 실패했어요. 로그인 상태를 확인해주세요.");
+      console.error(mutationError);
+    }
+  };
+
+  const onClickDislike = async () => {
+    try {
+      await dislikeBoard({ variables: { boardId } });
+      refetch();
+    } catch (mutationError) {
+      alert("싫어요 처리에 실패했어요. 로그인 상태를 확인해주세요.");
+      console.error(mutationError);
+    }
+  };
 
   return (
     <article className={styles.article}>
@@ -66,7 +92,10 @@ export default function BoardDetail({ boardId }: BoardDetailProps) {
 
           <time>{board.createdAt.slice(0, 10).replaceAll("-", ".")}</time>
         </div>
-        <span className={styles.like}>♡ {board.likeCount}</span>
+        <div className={styles.reactions}>
+          <span className={styles.like}>♡ {board.likeCount}</span>
+          <span className={styles.dislike}>x {board.dislikeCount}</span>
+        </div>
       </div>
       <img
         src={getImageUrl(board.images)}
@@ -79,8 +108,19 @@ export default function BoardDetail({ boardId }: BoardDetailProps) {
       <div className={styles.actions}>
         {/* 아직 클릭해도 아무 일 안 일어남 - 2단계에서 진짜 좋아요 뮤테이션을 연결할 예정 */}
 
-        <button type="button" className={styles.likeButton}>
+        <button
+          type="button"
+          className={styles.likeButton}
+          onClick={onClickLike}
+        >
           ♡ 좋아요
+        </button>
+        <button
+          type="button"
+          className={styles.dislikeButton}
+          onClick={onClickDislike}
+        >
+          x 싫어요
         </button>
         <Link href="/" className={styles.listLink}>
           목록으로

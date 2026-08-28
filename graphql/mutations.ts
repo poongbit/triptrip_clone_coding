@@ -11,3 +11,19 @@ export const RESET_USER_PASSWORD = gql`
     resetUserPassword(password: $password)
   }
 `;
+
+// 게시글에 좋아요를 누르는 요청.
+// resetUserPassword처럼 결과로 객체가 아니라 숫자(좋아요를 누른 뒤의 최신 좋아요 개수) 하나만 오기 때문에
+// 뒤에 { } 로 항목을 고를 필요가 없음
+export const LIKE_BOARD = gql`
+  mutation likeBoard($boardId: ID!) {
+    likeBoard(boardId: $boardId)
+  }
+`;
+
+// 게시글에 싫어요를 누르는 요청. 구조는 LIKE_BOARD와 완전히 동일
+export const DISLIKE_BOARD = gql`
+  mutation dislikeBoard($boardId: ID!) {
+    dislikeBoard(boardId: $boardId)
+  }
+`;

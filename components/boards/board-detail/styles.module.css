@@ -60,6 +60,18 @@
   font-size: 14px;
 }
 
+/* 좋아요 span + 싫어요 span을 한 줄에 나란히 놓는 감싸는 영역 */
+.reactions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dislike {
+  color: #767676;
+  font-size: 14px;
+}
+
 .mainImage {
   width: 100%;
   height: 420px;
@@ -84,6 +96,15 @@
 }
 
 .likeButton {
+  padding: 12px 24px;
+  border: 1px solid #d4d3d3;
+  border-radius: 8px;
+  background-color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.dislikeButton {
   padding: 12px 24px;
   border: 1px solid #d4d3d3;
   border-radius: 8px;

@@ -41,6 +41,7 @@ export const FETCH_BOARD = gql`
       title
       contents
       likeCount
+      dislikeCount
       images
       createdAt
     }
