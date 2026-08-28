@@ -2,7 +2,7 @@
 
 "use client";
 
-import { usequery } from "@apollo/client/react";
+import { useQuery } from "@apollo/client/react";
 import Link from "next/link";
 
 import { FETCH_BOARD } from "@/graphql/queries";
@@ -71,8 +71,7 @@ export default function BoardDetail({ boardId }: BoardDetailProps) {
       <img
         src={getImageUrl(board.images)}
         className={styles.mainImage}
-        alt="게시글 대표"
-        이미지
+        alt="게시글 대표 이미지"
       />
 
       <p className={styles.contents}>{removeHTMLTags(board.contents)}</p>
