@@ -1,0 +1,88 @@
+/* 폼 전체를 감싸는 영역. 피그마에서 이 부분은 "비밀번호 변경" 소제목과
+   인풋+버튼 묶음을 세로로 쌓아놓은 구조였음 */
+.section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* "비밀번호 변경" 소제목 */
+.title {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600; /* SemiBold */
+  color: #000000;
+}
+
+/* 인풋 묶음 + 버튼을 감싸는 영역.
+   align-items: flex-end로 줘서, 버튼만 오른쪽 끝에 붙게 만듦
+   (인풋들은 width: 100%라서 어차피 꽉 차니까 상관없고, 버튼만 이 값의 영향을 받음) */
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 24px;
+}
+
+/* 인풋 2개를 세로로 쌓는 영역 */
+.inputs {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 라벨 + 인풋 한 쌍을 감싸는 영역 (새 비밀번호 라벨+인풋이 한 세트) */
+.inputBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 500; /* Medium */
+  color: #333333;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box; /* padding을 width 안쪽으로 포함시켜서, 인풋이 부모 밖으로 삐져나가지 않게 함 */
+  padding: 12px 16px;
+  font-size: 16px;
+  color: #333333;
+  border: 1px solid #d4d3d3;
+  border-radius: 8px;
+}
+
+/* placeholder(아직 아무것도 안 쳤을 때 회색으로 보이는 안내 문구)만 따로 색을 지정할 수 있음 */
+.input::placeholder {
+  color: #ababab;
+}
+
+.button {
+  width: 130px;
+  height: 48px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600; /* SemiBold */
+  cursor: pointer;
+
+  /* 기본값(활성 상태): 검정 배경 + 흰 글씨 */
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* :disabled는 CSS 가상 클래스인데, "이 요소가 disabled 상태일 때만" 스타일을 덮어씀.
+   page.tsx에서 disabled={!isFilled}로 값을 넘겨줬으니까,
+   인풋이 둘 다 안 채워졌을 땐 이 스타일이 자동으로 적용돼서 회색 버튼으로 보임 */
+.button:disabled {
+  background-color: #c7c7c7;
+  color: #e4e4e4;
+  cursor: not-allowed; /* 마우스를 올리면 "금지" 커서 모양으로 바뀜 */
+}

@@ -1,0 +1,79 @@
+/* 헤더 전체를 감싸는 흰 배경 줄.
+   width는 100%로 화면 전체 폭을 다 차지하게 하고,
+   안쪽 내용물(inner)은 justify-content: center로 가운데 정렬함 */
+.header {
+  width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+/* 실제 로고+메뉴+프로필이 들어가는 영역.
+   max-width로 너무 넓은 화면에서도 콘텐츠가 무한정 안 늘어나게 막아줌 */
+.inner {
+  width: 100%;
+  max-width: 1280px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 왼쪽(로고+메뉴)과 오른쪽(프로필)을 양 끝으로 밀어냄 */
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 32px;
+  width: auto;
+}
+
+.nav {
+  display: flex;
+  gap: 16px;
+}
+
+/* 메뉴 하나하나의 기본 스타일 (선택 안 된 상태) */
+.navItem {
+  padding: 8px;
+  font-size: 16px;
+  font-weight: 500; /* Medium */
+  color: #333333;
+  text-decoration: none; /* Link가 자동으로 만드는 밑줄 제거 */
+  border-bottom: 2px solid transparent; /* 자리를 미리 확보해서, 활성화될 때 레이아웃이 덜컹거리지 않게 함 */
+}
+
+/* 지금 보고 있는 페이지에 해당하는 메뉴에만 추가로 붙는 스타일 */
+.navItemActive {
+  font-weight: 700; /* Bold */
+  color: #000000;
+  border-bottom-color: #000000;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 아직 실제 프로필 사진이 없어서, 회색 동그라미로 자리만 표시 */
+.profileImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+}
+
+.arrow {
+  font-size: 12px;
+  color: #333333;
+}
