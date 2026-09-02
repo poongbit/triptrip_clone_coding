@@ -1,0 +1,230 @@
+/* 로그인 / 회원가입 페이지가 함께 쓰는 스타일.
+   왼쪽엔 폼, 오른쪽엔 큰 사진이 놓이는 2단 레이아웃 */
+.main {
+  display: flex;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.formSide {
+  display: flex;
+  width: 400px;
+  padding: 40px;
+  flex-shrink: 0;
+  justify-content: center;
+}
+
+.formBox {
+  width: 320px;
+}
+
+.loginSide {
+  padding-top: 245px;
+  align-items: flex-start;
+}
+
+.signupSide {
+  padding-top: 245px;
+  align-items: flex-start;
+}
+
+.logo {
+  display: block;
+  width: 120px;
+  margin: 0 auto 30px;
+}
+
+.logo img {
+  display: block;
+  width: 120px;
+  height: 74px;
+  object-fit: contain;
+}
+
+.formBox h1 {
+  margin: 0 0 38px;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: -0.8px;
+}
+
+.loginBox h1 {
+  margin-bottom: 26px;
+  font-size: 17px;
+}
+
+.description {
+  margin: 0 0 34px;
+  color: #555555;
+  font-size: 14px;
+  text-align: center;
+}
+
+.loginBox .description {
+  margin-bottom: 18px;
+  font-size: 13px;
+}
+
+.signupBox h1 {
+  margin-bottom: 25px;
+}
+
+.signupBox .description {
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form label {
+  margin: 0 0 10px;
+  font-size: 13px;
+}
+
+.form label span {
+  color: #ff5555;
+  font-weight: 700;
+}
+
+/* 화면엔 안 보이지만 스크린리더는 읽을 수 있는 라벨.
+   로그인 폼은 디자인상 라벨 글자를 안 보여주지만, 접근성을 위해 완전히 없애진 않음 */
+.hiddenLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.form input {
+  height: 40px;
+  margin-bottom: 12px;
+  padding: 0 15px;
+  border: 1px solid #d7d7d7;
+  border-radius: 8px;
+  outline: 0;
+  font-size: 13px;
+}
+
+.form input::placeholder {
+  color: #bbbbbb;
+}
+
+.form input:focus {
+  border-color: #2878ef;
+}
+
+.form .inputError {
+  border-color: #ff5555;
+}
+
+.error {
+  min-height: 18px;
+  margin: 4px 0 13px;
+  color: #ef5555;
+  font-size: 12px;
+}
+
+.submitButton {
+  height: 48px;
+  margin-top: 4px;
+  border: 0;
+  border-radius: 8px;
+  color: #ffffff;
+  background: #2878ef;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.submitButton:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.moveLink {
+  display: block;
+  margin-top: 25px;
+  color: #333333;
+  font-size: 13px;
+  text-align: center;
+}
+
+.signupBox .form input {
+  margin-bottom: 14px;
+}
+
+/* 회원가입 성공 후 뜨는 축하 모달 */
+.modalOverlay {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.48);
+}
+
+.successModal {
+  display: flex;
+  width: 480px;
+  height: 196px;
+  padding: 28px;
+  border-radius: 20px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  background: #ffffff;
+}
+
+.successModal h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.successModal img {
+  width: 80px;
+  height: 50px;
+  margin-bottom: 14px;
+  object-fit: contain;
+}
+
+.successModal button {
+  width: 120px;
+  height: 40px;
+  border: 0;
+  border-radius: 8px;
+  color: #ffffff;
+  background: #2878ef;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.picture {
+  min-height: 720px;
+  flex: 1;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.08)),
+    url("https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=1800&q=85");
+  background-position: center;
+  background-size: cover;
+}
+
+@media (max-width: 820px) {
+  .formSide {
+    width: 100%;
+    padding-top: 80px;
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+
+  .successModal {
+    width: calc(100% - 40px);
+  }
+
+  .picture {
+    display: none;
+  }
+}

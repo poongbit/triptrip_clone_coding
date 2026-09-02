@@ -2,12 +2,20 @@
 
 "use client";
 
+import { useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import { useMutation, useQuery } from "@apollo/client/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { FETCH_BOARD } from "@/graphql/queries";
 import type { Board } from "@/types/board";
-import { LIKE_BOARD, DISLIKE_BOARD } from "@/graphql/mutations";
+import {
+  LIKE_BOARD,
+  DISLIKE_BOARD,
+  UPDATE_BOARD,
+  DELETE_BOARD,
+} from "@/graphql/mutations";
 import BoardComment from "@/components/boards/board-comment";
 import styles from "./styles.module.css";
 
@@ -48,8 +56,18 @@ export default function BoardDetail({ boardId }: BoardDetailProps) {
     },
   );
 
+  // 삭제 성공 후 홈으로 이동시키기 위해 필요함 (onClickDelete에서 사용)
+  const router = useRouter();
+
   const [likeBoard] = useMutation(LIKE_BOARD);
   const [dislikeBoard] = useMutation(DISLIKE_BOARD);
+  const [updateBoard] = useMutation(UPDATE_BOARD);
+  const [deleteBoard] = useMutation(DELETE_BOARD);
+
+  // 지금 "보기 모드"인지 "수정 모드"인지 기억하는 값
+  const [isEditing, setIsEditing] = useState(false);
+  const [editTitle, setEditTitle] = useState("");
+  const [editContents, setEditContents] = useState("");
 
   if (loading)
     return <p className={styles.state}>게시글을 불러오고 있어요...</p>;
@@ -57,6 +75,64 @@ export default function BoardDetail({ boardId }: BoardDetailProps) {
     return <p className={styles.state}>게시글을 불러오지 못했어요.</p>;
 
   const board = data.fetchBoard;
+
+  const onClickEdit = () => {
+    // 수정 모드에 들어갈 때, 인풋 초기값을 지금 게시글 내용으로 미리 채워둠
+    setEditTitle(board.title);
+    setEditContents(board.contents);
+    setIsEditing(true);
+  };
+
+  const onClickCancelEdit = () => {
+    setIsEditing(false);
+  };
+
+  const onChangeEditTitle = (event: ChangeEvent<HTMLInputElement>) => {
+    setEditTitle(event.target.value);
+  };
+
+  const onChangeEditContents = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setEditContents(event.target.value);
+  };
+
+  const onSubmitEdit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      await updateBoard({
+        variables: {
+          boardId,
+          updateBoardInput: {
+            title: editTitle,
+            contents: editContents,
+          },
+        },
+      });
+
+      setIsEditing(false);
+      refetch();
+    } catch (mutationError) {
+      alert("게시글 수정에 실패했어요. 로그인 상태를 확인해 주세요.");
+      console.error(mutationError);
+    }
+  };
+
+  const onClickDelete = async () => {
+    // confirm(): 브라우저가 기본으로 제공하는 "확인/취소" 팝업.
+    // 사용자가 "확인"을 누르면 true, "취소"를 누르면 false를 돌려줌
+    const isConfirmed = confirm("정말 이 게시글을 삭제하시겠어요?");
+    if (!isConfirmed) return;
+
+    try {
+      await deleteBoard({ variables: { boardId } });
+      alert("게시글이 삭제되었어요.");
+      // 삭제됐으니 상세 페이지에 더 있을 이유가 없어서, 홈("/")으로 이동시킴
+      router.push("/");
+    } catch (mutationError) {
+      alert("게시글 삭제에 실패했어요. 로그인 상태를 확인해 주세요.");
+      console.error(mutationError);
+    }
+  };
 
   const onClickLike = async () => {
     try {
@@ -82,51 +158,91 @@ export default function BoardDetail({ boardId }: BoardDetailProps) {
 
   return (
     <article className={styles.article}>
-      <h1 className={styles.title}>{board.title}</h1>
+      {isEditing ? (
+        <form className={styles.editForm} onSubmit={onSubmitEdit}>
+          <input
+            className={styles.editTitleInput}
+            value={editTitle}
+            onChange={onChangeEditTitle}
+          />
+          <textarea
+            className={styles.editContentsInput}
+            value={editContents}
+            onChange={onChangeEditContents}
+          />
+          <div className={styles.editActions}>
+            <button type="submit" className={styles.saveButton}>
+              저장
+            </button>
+            <button
+              type="button"
+              className={styles.cancelButton}
+              onClick={onClickCancelEdit}
+            >
+              취소
+            </button>
+          </div>
+        </form>
+      ) : (
+        <>
+          <h1 className={styles.title}>{board.title}</h1>
 
-      <div className={styles.information}>
-        <div className={styles.writer}>
-          <span className={styles.avatar} aria-hidden="true" />
-          <strong>{board.writer ?? "익명"}</strong>
+          <div className={styles.information}>
+            <div className={styles.writer}>
+              <span className={styles.avatar} aria-hidden="true" />
+              <strong>{board.writer ?? "익명"}</strong>
+              <time>{board.createdAt.slice(0, 10).replaceAll("-", ".")}</time>
+            </div>
+            <div className={styles.reactions}>
+              <span className={styles.like}>♡ {board.likeCount}</span>
+              <span className={styles.dislike}>✕ {board.dislikeCount}</span>
+            </div>
+          </div>
 
-          {/* created AI은 앞글자 연-월-일만 잘라내고, "-"는 "."으로 바꿔줌 */}
+          <img
+            src={getImageUrl(board.images)}
+            className={styles.mainImage}
+            alt="게시글 대표 이미지"
+          />
 
-          <time>{board.createdAt.slice(0, 10).replaceAll("-", ".")}</time>
-        </div>
-        <div className={styles.reactions}>
-          <span className={styles.like}>♡ {board.likeCount}</span>
-          <span className={styles.dislike}>x {board.dislikeCount}</span>
-        </div>
-      </div>
-      <img
-        src={getImageUrl(board.images)}
-        className={styles.mainImage}
-        alt="게시글 대표 이미지"
-      />
+          <p className={styles.contents}>{removeHTMLTags(board.contents)}</p>
 
-      <p className={styles.contents}>{removeHTMLTags(board.contents)}</p>
+          <div className={styles.actions}>
+            <button
+              type="button"
+              className={styles.likeButton}
+              onClick={onClickLike}
+            >
+              ♡ 좋아요
+            </button>
+            <button
+              type="button"
+              className={styles.dislikeButton}
+              onClick={onClickDislike}
+            >
+              ✕ 싫어요
+            </button>
+            <button
+              type="button"
+              className={styles.editButton}
+              onClick={onClickEdit}
+            >
+              수정
+            </button>
+            <button
+              type="button"
+              className={styles.deleteButton}
+              onClick={onClickDelete}
+            >
+              삭제
+            </button>
+            <Link href="/" className={styles.listLink}>
+              목록으로
+            </Link>
+          </div>
+        </>
+      )}
 
-      <div className={styles.actions}>
-        {/* 아직 클릭해도 아무 일 안 일어남 - 2단계에서 진짜 좋아요 뮤테이션을 연결할 예정 */}
-
-        <button
-          type="button"
-          className={styles.likeButton}
-          onClick={onClickLike}
-        >
-          ♡ 좋아요
-        </button>
-        <button
-          type="button"
-          className={styles.dislikeButton}
-          onClick={onClickDislike}
-        >
-          x 싫어요
-        </button>
-        <Link href="/" className={styles.listLink}>
-          목록으로
-        </Link>
-      </div>
       <BoardComment boardId={boardId} />
     </article>
   );
